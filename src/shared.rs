@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 
 // Only derive sqlx::FromRow when ssr is enabled
 #[cfg_attr(feature = "ssr", derive(sqlx::FromRow))]
-/// A users account and their favorite food.
+/// Some arbitrary Animal facts
 #[derive(Debug, Clone, Serialize, Deserialize, bon::Builder)]
 pub struct Animal {
     pub name: String,

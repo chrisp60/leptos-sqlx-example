@@ -1,0 +1,8 @@
+debug/
+target/
+Cargo.lock
+
+# Dont commit the database...
+*.db-shm
+*.db-wal
+*.db

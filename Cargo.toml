@@ -1,0 +1,64 @@
+[package]
+name = "leptos-sqlx-example"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+sqlx = { version = "0.8.2", features = ["macros", "sqlite", "runtime-tokio", "uuid", "chrono"], optional = true }
+leptos = { version = "0.7", features = ["nightly"] }
+leptos_router = { version = "0.7", features = ["nightly"] }
+axum = { version = "0.7", optional = true }
+console_error_panic_hook = "0.1"
+leptos_axum = { version = "0.7", optional = true }
+leptos_meta = { version = "0.7" }
+tokio = { version = "1", features = ["rt-multi-thread"], optional = true }
+tower = { version = "0.4", optional = true }
+tower-http = { version = "0.5", features = ["fs"], optional = true }
+wasm-bindgen = "=0.2.99"
+thiserror = "1"
+http = "1"
+dotenvy = "0.15.7"
+bon = "3.3.2"
+uuid = { version = "1.11.0", features = ["js", "serde", "v4"] }
+serde = { version = "1.0.217", features = ["derive"] }
+serde_with = "3.12.0"
+chrono = { version = "0.4.39", features = ["serde"] }
+
+[features]
+hydrate = ["leptos/hydrate"]
+ssr = [
+  "dep:sqlx",
+  "dep:axum",
+  "dep:tokio",
+  "dep:tower",
+  "dep:tower-http",
+  "dep:leptos_axum",
+  "leptos/ssr",
+  "leptos_meta/ssr",
+  "leptos_router/ssr",
+]
+
+# Defines a size-optimized profile for the WASM bundle in release mode
+[profile.wasm-release]
+inherits = "release"
+opt-level = 'z'
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[package.metadata.leptos]
+assets-dir = "public"
+bin-default-features = false
+bin-features = ["ssr"]
+lib-default-features = false
+lib-features = ["hydrate"]
+lib-profile-release = "wasm-release"
+output-name = "leptos-sqlx-example"
+reload-port = 3001
+site-addr = "127.0.0.1:3000"
+site-pkg-dir = "pkg"
+site-root = "target/site"
+style-file = "style/main.scss"
